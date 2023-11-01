@@ -1,9 +1,10 @@
 from django.urls import path
 from . import views
+from .views import api_data
 
 urlpatterns = [
     path('data/', views.data_list, name='data_list'),
-    path('api/data/', views.api_data, name='api_data'),
+    path('apidata/', api_data.as_view(), name='api_data'),
 
     path('intensity_chart/', views.intensity_chart, name='intensity_chart'),
     path('likelihood_chart/', views.likelihood_chart, name='likelihood_chart'),

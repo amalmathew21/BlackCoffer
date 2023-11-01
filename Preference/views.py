@@ -1,6 +1,7 @@
-from django.http import JsonResponse
 from django.shortcuts import render
 from .models import DataEntry
+from rest_framework import generics
+from .serializers import DataEntrySerializer
 
 def data_list(request):
     data = DataEntry.objects.all()
@@ -8,9 +9,9 @@ def data_list(request):
 
 
 
-def api_data(request):
-    data = DataEntry.objects.all().values()
-    return JsonResponse({'data': list(data)})
+class api_data(generics.ListAPIView):
+    queryset = DataEntry.objects.all()
+    serializer_class = DataEntrySerializer
 
 
 
