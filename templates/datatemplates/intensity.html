@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        #chart-container {
+            width: 800px;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="chart-container">
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        var intensity_values = {{ intensity_values|safe }};
+        var count_values = {{ count_values|safe }};
+        var color = ["green", "red", "yellow", "orange", "pink", "cyan"];
+
+        new Chart("myChart", {
+            type: "scatter",
+            data: {
+                datasets: [
+                    {
+                        label: "Intensity",
+                        data: intensity_values.map((value, index) => ({
+                            x: value,
+                            y: count_values[index],
+                        })),
+                        pointBackgroundColor: color,
+                        pointRadius: 5,
+                    }
+                ]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    },
+                },
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom',
+                        title: {
+                            display: true,
+                            text: 'Intensity',
+                        },
+                    },
+                    y: {
+                        type: 'linear',
+                        title: {
+                            display: true,
+                            text: 'Count',
+                        },
+                        beginAtZero: true,
+                    },
+                },
+            },
+        });
+    </script>
+</body>
+</html>

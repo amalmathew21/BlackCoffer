@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        #chart-container {
+            width: 800px;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <div id="chart-container">
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        var country_values = {{ country_values|safe }};
+        var count_values = {{ count_values|safe }};
+        var color = "blue";
+
+        new Chart("myChart", {
+            type: "line",
+            data: {
+                labels: country_values.map(value => "country : " + value),
+                datasets: [
+                    {
+                        label: "Counts",
+                        data: count_values,
+                        borderColor: color,
+                        borderWidth:3,
+                        fill: false,
+                    }
+                ]
+            },
+            options: {
+                legend: { display: false },
+                title: {
+                    display: true,
+                    text: "Line Chart",
+                },
+            }
+        });
+    </script>
+</body>
+</html>

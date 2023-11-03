@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        #chart-container {
+            width: 800px;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="chart-container">
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        var year_values = {{ year_values|safe }};
+        var count_values = {{ count_values|safe }};
+        var color = "blue";
+
+        new Chart("myChart", {
+            type: "line",
+            data: {
+                labels: year_values.map(value => "year : " + value),
+                datasets: [
+                    {
+                        label: "Area Chart",
+                        data: count_values,
+                        borderColor: color,
+                        backgroundColor: 'rgba(0, 0, 255, 0.2)',
+                        borderWidth: 2,
+                        fill: true,
+                    }
+                ]
+            },
+            options: {
+                legend: { display: true },
+                title: {
+                    display: true,
+                    text: "Area Chart",
+                },
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+{% load custom_filters %}
+
+<html>
+<head>
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        #chart-container {
+            width: 800px;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="chart-container">
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        var region_values = {{ region_values|safe }};
+        var count_values = {{ count_values|safe }};
+        var borderColor = "rgba(75, 192, 192, 1)";
+        var backgroundColor = "rgba(75, 192, 192, 0.2)";
+
+        new Chart("myChart", {
+            type: "radar",
+            data: {
+                labels: region_values,
+                datasets: [
+                    {
+                        label: "Region ",
+                        data: count_values,
+                        borderColor: borderColor,
+                        backgroundColor: backgroundColor,
+                        borderWidth: 2,
+                    }
+                ]
+            },
+            options: {
+                legend: { display: true },
+                title: {
+                    display: true,
+                    text: "Radar Chart",
+                },
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

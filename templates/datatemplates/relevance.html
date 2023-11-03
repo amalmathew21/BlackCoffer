@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="myChart" width="300" height="200"></canvas>
+
+    <script>
+        var relevance_values = {{ relevance_values|safe }};
+        var count_values = {{ count_values|safe }};
+        var color = ["green", "red", "yellow", "orange", "pink", "cyan"];
+
+        new Chart("myChart", {
+            type: "bar",
+            data: {
+                labels: relevance_values.map(value => "relevance : " + value),
+                datasets: [
+                    {
+                        data: count_values,
+                        backgroundColor: color,
+                        barPercentage: 0.2,
+                        categoryPercentage: 0.4,
+                    }
+                ]
+            },
+            options: {
+                legend: { display: true },
+                title: {
+                    display: true,
+                    text: "Bar Chart",
+                },
+                scales: {
+                    x: {
+                        stacked: true,
+                    },
+                },
+            }
+        });
+    </script>
+</body>
+</html>

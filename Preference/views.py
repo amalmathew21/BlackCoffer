@@ -1,7 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import DataEntry
 from rest_framework import generics
 from .serializers import DataEntrySerializer
+from django.db.models import IntegerField
+
+from django.db.models import Count
+
 
 def data_list(request):
     data = DataEntry.objects.all()
@@ -15,80 +19,124 @@ class api_data(generics.ListAPIView):
 
 
 
-import plotly.express as px
-import pandas as pd
+def likelihoodChart(request):
+    data = (
+        DataEntry.objects
+        .values('likelihood')
+        .annotate(count=Count('likelihood', output_field=IntegerField()))
+    )
 
-def intensity_chart(request):
-    data = DataEntry.objects.all()
-    data_list = list(data.values())
-    df = pd.DataFrame(data_list)
-    if not df.empty:
-        fig = px.pie(df, x='country', y='intensity', title='Intensity Chart')
-        return render(request, 'datatemplates/intensity_chart.html', {'chart': fig.to_html()})
-    else:
-        return render(request, 'datatemplates/no_data.html')
+    likelihood_values = [float(entry['likelihood']) for entry in data]
+    count_values = [entry['count'] for entry in data]
 
-def likelihood_chart(request):
-    data = DataEntry.objects.all()
-    data_list = list(data.values())
-    df = pd.DataFrame(data_list)
-    if not df.empty:
-        fig = px.bar(df, x='country', y='likelihood', title='Intensity Chart')
-        return render(request, 'datatemplates/likelihood.html', {'chart': fig.to_html()})
-    else:
-        return render(request, 'datatemplates/no_data.html')
+    context = {
+        'likelihood_values': likelihood_values,
+        'count_values': count_values,
+    }
 
-def relevance_chart(request):
-    data = DataEntry.objects.all()
-    data_list = list(data.values())
-    df = pd.DataFrame(data_list)
-    if not df.empty:
-        fig = px.bar(df, x='country', y='relevance', title='Intensity Chart')
-        return render(request, 'datatemplates/relevance_chart.html', {'chart': fig.to_html()})
-    else:
-        return render(request, 'datatemplates/no_data.html')
-
-def year_relevance_chart(request):
-    data = DataEntry.objects.all()
-    data_list = list(data.values())
-    df = pd.DataFrame(data_list)
-    if not df.empty:
-        fig = px.violin(df, x='end_year', y='relevance', title='Year vs. Intensity Violin Plot')
-        return render(request, 'datatemplates/relevance_chart.html', {'chart': fig.to_html()})
-    else:
-        return render(request, 'datatemplates/no_data.html')
-
-def year_intensity_chart(request):
-    data = DataEntry.objects.all()
-    data_list = list(data.values())
-    df = pd.DataFrame(data_list)
-    if not df.empty:
-        fig = px.violin(df, x='end_year', y='intensity', title='Year vs. Intensity Violin Plot')
+    return render(request, 'datatemplates/likelihood.html', context)
 
 
+def relevanceChart(request):
+    data = (
+        DataEntry.objects
+        .values('relevance')
+        .annotate(count=Count('relevance', output_field=IntegerField()))
+    )
 
-        return render(request, 'datatemplates/intensity_chart.html', {'chart': fig.to_html()})
-    else:
-        return render(request, 'datatemplates/no_data.html')
+    relevance_values = [float(entry['relevance']) for entry in data]
+    count_values = [entry['count'] for entry in data]
 
-def year_likelihood_chart(request):
-    data = DataEntry.objects.all()
-    data_list = list(data.values())
-    df = pd.DataFrame(data_list)
-    if not df.empty:
-        fig = px.violin(df, x='end_year', y='likelihood', title='Year vs. Intensity Violin Plot')
-        return render(request, 'datatemplates/likelihood_chart.html', {'chart': fig.to_html()})
-    else:
-        return render(request, 'datatemplates/no_data.html')
+    context = {
+        'relevance_values': relevance_values,
+        'count_values': count_values,
+    }
 
-def country_chart(request):
-    data = DataEntry.objects.all()
-    data_list = list(data.values())
-    df = pd.DataFrame(data_list)
-    if not df.empty:
-        fig = px.pie(df, names='country', values='intensity', title='Country Chart')
-        return render(request, 'datatemplates/country_chart.html', {'chart': fig.to_html()})
+    return render(request, 'datatemplates/relevance.html', context)
 
-    else:
-        return render(request, 'datatemplates/no_data.html')
+def intensityChart(request):
+    data = (
+        DataEntry.objects
+        .values('intensity')
+        .annotate(count=Count('intensity', output_field=IntegerField()))
+    )
+
+    intensity_values = [float(entry['intensity']) for entry in data]
+    count_values = [entry['count'] for entry in data]
+
+    context = {
+        'intensity_values': intensity_values,
+        'count_values': count_values,
+    }
+
+    return render(request, 'datatemplates/intensity.html', context)
+
+def yearChart(request):
+    data = (
+        DataEntry.objects
+        .values('end_year')
+        .annotate(count=Count('end_year', output_field=IntegerField()))
+    )
+
+    year_values = [entry['end_year'] for entry in data]
+    count_values = [entry['count'] for entry in data]
+
+    context = {
+        'year_values': year_values,
+        'count_values': count_values,
+    }
+
+    return render(request, 'datatemplates/year.html', context)
+
+def countryChart(request):
+    data = (
+        DataEntry.objects
+        .values('country')
+        .annotate(count=Count('country', output_field=IntegerField()))
+    )
+
+    country_values = [entry['country'] for entry in data]
+
+    count_values = [entry['count'] for entry in data]
+
+    context = {
+        'country_values': country_values,
+        'count_values': count_values,
+    }
+
+    return render(request, 'datatemplates/country.html', context)
+
+def topicChart(request):
+    data = (
+        DataEntry.objects
+        .values('topic')
+        .annotate(count=Count('topic', output_field=IntegerField()))
+    )
+
+    topic_values = [entry['topic'] for entry in data]
+    count_values = [entry['count'] for entry in data]
+
+    context = {
+        'topic_values': topic_values,
+        'count_values': count_values,
+    }
+
+    return render(request, 'datatemplates/topic.html', context)
+
+def regionChart(request):
+    data = (
+        DataEntry.objects
+        .values('region')
+        .annotate(count=Count('region', output_field=IntegerField()))
+    )
+
+    region_values = [entry['region'] for entry in data]
+    count_values = [entry['count'] for entry in data]
+
+    context = {
+        'region_values': region_values,
+        'count_values': count_values,
+    }
+
+    return render(request, 'datatemplates/region.html', context)
 
