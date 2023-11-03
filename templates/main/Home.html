@@ -1,0 +1,97 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block additional_css %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Dashboard.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Header.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Sidebar.css' %}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% endblock %}
+
+
+{% block sidebar %}
+<aside class="sidebar">
+    <!-- Sidebar content -->
+    <a href="{% url 'intensitychart' %}" class="active">
+        <span class="material-icons">
+            dashboard
+        </span>
+        <h3>Intensity</h3>
+    </a>
+
+    <a href="{% url 'likelihoodchart' %}">
+        <span class="material-icons">
+            person_outline
+        </span>
+        <h3>Likelihood</h3>
+    </a>
+    <a href="{% url 'relevancechart' %}">
+        <span class="material-icons">
+            receipt_long
+        </span>
+        <h3>Relevance</h3>
+    </a>
+
+    <a href="{% url 'yearchart' %}">
+        <span class="material-icons">
+            insights
+        </span>
+        <h3>End Year</h3>
+    </a>
+
+    <a href="{% url 'countrychart' %}">
+        <span class="material-icons">
+            mail_outline
+        </span>
+        <h3>Country</h3>
+
+    </a>
+
+    <a href="{% url 'topicchart' %}">
+        <span class="material-icons">
+            inventory
+        </span>
+        <h3>Topic</h3>
+    </a>
+
+    <a href="{% url 'regionchart' %}">
+        <span class="material-icons">
+            report
+        </span>
+        <h3>Region</h3>
+    </a>
+
+    <a href="{% url 'api_data' %}">
+        <span class="material-icons">
+            settings
+        </span>
+        <h3>API Data</h3>
+    </a>
+
+    <a href="#">
+        <span class="material-icons">
+            settings
+        </span>
+        <h3>Setting</h3>
+    </a>
+
+    <a href="#">
+        <span class="material-icons">
+            logout
+        </span>
+        <h3>Logout</h3>
+    </a>
+</aside>
+{% endblock %}
+
+{% block content %}
+<div class="content center-content" style="width: 1500px; height: 700px;">
+    <div class="graphs">
+        <div class="graph">
+            <h2>Intensity</h2>
+            {% include 'datatemplates/intensity.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

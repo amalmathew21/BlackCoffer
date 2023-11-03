@@ -1,0 +1,12 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="content center-content" style="width: 1500px; height: 700px;">
+    <div class="graphs">
+        <div class="graph">
+            <h2>Intensity</h2>
+            {% include 'datatemplates/intensity.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

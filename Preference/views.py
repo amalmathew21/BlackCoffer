@@ -7,6 +7,12 @@ from django.db.models import IntegerField
 from django.db.models import Count
 
 
+
+def homepage(request):
+    return render(request,'main/Home.html')
+
+
+
 def data_list(request):
     data = DataEntry.objects.all()
     return render(request, 'datatemplates/data-list.html', {'data': data})

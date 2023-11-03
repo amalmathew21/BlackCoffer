@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Dashboard.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Sidebar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Header.css' %}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    {% block additional_css %}{% endblock %}
+</head>
+<body>
+    <div class="top-navBar">
+        {% block header %}{% endblock %}
+    </div>
+    <aside>
+        <div class="toggle">
+            <div class="logo">
+                <img src="{% static 'images/dashboard.png' %}" alt="Dashboard" />
+                <h2 class="primary">Admin</h2>
+            </div>
+            <div class="close" id="close-btn">
+                <span class="material-symbols-outlined">
+                    close
+                </span>
+            </div>
+        </div>
+        <div class="sidebar">
+            {% block sidebar %}{% endblock %}
+        </div>
+    </aside>
+    <main>
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+    <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

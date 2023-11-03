@@ -3,6 +3,8 @@ from . import views
 from .views import api_data
 
 urlpatterns = [
+    path('', views.homepage, name='home'),
+
     path('data/', views.data_list, name='data_list'),
     path('apidata/', api_data.as_view(), name='api_data'),
 
